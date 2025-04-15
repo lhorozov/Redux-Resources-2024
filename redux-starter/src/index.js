@@ -1,7 +1,5 @@
-import axios from 'axios';
-
 import store from './store/configureStore';
-import { fetchTasks } from './store/task';
+import { apiCallBegan } from './store/api';
 
 // const gettingTasks = async () => {
 //     try {
@@ -12,4 +10,11 @@ import { fetchTasks } from './store/task';
 //     }
 // }
 
-store.dispatch(fetchTasks());
+store.dispatch(
+    apiCallBegan({
+        url: '/tasks',
+        onStart: 'tasks/apiRequested',
+        onSuccess: 'tasks/setTasks',
+        onError: 'tasks/apiRequestFailed'
+    })
+);

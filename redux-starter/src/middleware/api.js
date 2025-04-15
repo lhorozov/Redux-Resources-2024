@@ -6,7 +6,9 @@ const api = ({ dispatch }) => (next) => async action => {
         return next(action);
     };
 
-    const { url, method, data, onSuccess, onError } = action.payload;
+    const { url, method, data, onStart, onSuccess, onError } = action.payload;
+
+    if (onStart) dispatch({ type: onStart });
 
     try {
         const response = await axios.request({
