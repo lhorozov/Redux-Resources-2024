@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import logger from 'redux-logger';
 
 import employeeReducer from './employees';
 import taskReducer from './task';
 import error from '../middleware/error';
+import api from '../middleware/api'
 
 const store = configureStore({
     reducer: {
@@ -12,7 +12,7 @@ const store = configureStore({
     },
     middleware: (getDefaultMiddleware) => [
         ...getDefaultMiddleware(),
-        logger,
+        api,
         error
     ],
 });
