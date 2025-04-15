@@ -17,7 +17,7 @@ const taskSlice = createSlice({
         apiRequested: (state, action) => {
             state.loading = true;
         },
-        apiRequestedFailed: (state, action) => {
+        apiRequestFailed: (state, action) => {
             state.loading = false;
         },
         setTasks: (state, action) => {
