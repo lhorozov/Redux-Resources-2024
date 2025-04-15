@@ -1,11 +1,5 @@
 import store from './store/configureStore';
 import { apiCallBegan } from './store/api';
+import { loadTasks } from './store/task';
 
-store.dispatch(
-    apiCallBegan({
-        url: '/tasks',
-        onStart: 'tasks/apiRequested',
-        onSuccess: 'tasks/setTasks',
-        onError: 'tasks/apiRequestFailed'
-    })
-);
+store.dispatch(loadTasks());
