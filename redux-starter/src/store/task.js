@@ -1,4 +1,4 @@
-import { createAction } from "@reduxjs/toolkit";
+import { createAction, createReducer } from "@reduxjs/toolkit";
 
 // Actions
 export const addTask = createAction('ADD_TASK');
@@ -14,29 +14,21 @@ export const fetchTodo = () => async (dispatch) => {
 
 // Reducer
 let id = 0;
-export default function reducer(state = [], action) {
-    switch (action.type) {
-        case addTask.type:
-            return [
-                ...state,
-                {
-                    id: ++id,
-                    task: action.payload.task,
-                    completed: false
-                }
-            ]
-        case removeTask.type:
-            return state.filter(task => task.id !== action.payload.id)
 
-        case completeTask:
-            return state.map(task => {
-                if (task.id === action.payload.id) {
-                    return { ...task, completed: true }
-                }
-                return task;
-            })
-
-        default:
-            return state;
-    }
-}
+export default createReducer([], (builder) => { // we are using mutable changes here
+    builder.addCase(addTask, (state, action) => {
+        state.push({
+            id: ++id,
+            task: action.payload.task,
+            completed: false
+        })
+    })
+    builder.addCase(removeTask, (state, action) => {
+        const index = state.findIndex(task => task.id === action.payload.id);
+        state.splice(index, 1);
+    })
+    builder.addCase(completeTask, (state, action) => {
+        const index = state.findIndex(task => task.id === action.payload.id);
+        state[index].completed = true;
+    })
+})
