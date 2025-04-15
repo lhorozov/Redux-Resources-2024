@@ -16,6 +16,15 @@ export const completeTask = (id) => {
     return { type: COMPLETE_TASK, payload: { id } };
 }
 
+
+// for async tasks we just simply return async function instead of object
+export const fetchTodo = () => async (dispatch) => {
+    const response = await fetch('https://jsonplaceholder.typicode.com/todos/1')
+    const task = await response.json();
+    dispatch(addTask(task.title));
+}
+
+
 // Reducer
 let id = 0;
 export default function reducer(state = [], action) {
