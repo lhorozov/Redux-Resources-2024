@@ -1,15 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { apiCallBegan } from "./api";
-import axios from '../utils/http';
-
-let id = 0;
 
 const initialState = {
     tasks: [],
     loading: false,
     error: null
 }
-
 
 const taskSlice = createSlice({
     name: 'tasks',
@@ -22,14 +18,11 @@ const taskSlice = createSlice({
             state.loading = false;
         },
         setTasks: (state, action) => {
-            state.tasks = action.payload.tasks;
+            state.tasks = action.payload;
+            state.loading = false;
         },
         addTask: (state, action) => {
-            state.tasks.push({
-                id: ++id,
-                task: action.payload.task,
-                completed: false
-            })
+            state.tasks.push(action.payload);
         },
         removeTask: (state, action) => {
             const index = state.tasks.findIndex(task => task.id === action.payload.id);
@@ -54,4 +47,12 @@ export const loadTasks = () =>
         onSuccess: setTasks.type,
         onError: apiRequestFailed.type,
     })
+
+export const addNewTask = (task) =>
+    apiCallBegan({
+        url,
+        method: "POST",
+        data: task,
+        onSuccess: addTask.type,
+    });
 
