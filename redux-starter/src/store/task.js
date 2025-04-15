@@ -1,21 +1,9 @@
-// Action types
-const ADD_TASK = 'ADD_TASK';
-const COMPLETE_TASK = 'COMPLETE_TASK';
-const REMOVE_TASK = 'REMOVE_TASK';
+import { createAction } from "@reduxjs/toolkit";
 
 // Actions
-export const addTask = (task) => {
-    return { type: ADD_TASK, payload: { task } };
-}
-
-export const removeTask = (id) => {
-    return { type: REMOVE_TASK, payload: { id } };
-}
-
-export const completeTask = (id) => {
-    return { type: COMPLETE_TASK, payload: { id } };
-}
-
+export const addTask = createAction('ADD_TASK');
+export const removeTask = createAction('REMOVE_TASK');
+export const completeTask = createAction('COMPLETE_TASK');
 
 // for async tasks we just simply return async function instead of object
 export const fetchTodo = () => async (dispatch) => {
@@ -24,12 +12,11 @@ export const fetchTodo = () => async (dispatch) => {
     dispatch(addTask(task.title));
 }
 
-
 // Reducer
 let id = 0;
 export default function reducer(state = [], action) {
     switch (action.type) {
-        case ADD_TASK:
+        case addTask.type:
             return [
                 ...state,
                 {
@@ -38,10 +25,10 @@ export default function reducer(state = [], action) {
                     completed: false
                 }
             ]
-        case REMOVE_TASK:
+        case removeTask.type:
             return state.filter(task => task.id !== action.payload.id)
 
-        case COMPLETE_TASK:
+        case completeTask:
             return state.map(task => {
                 if (task.id === action.payload.id) {
                     return { ...task, completed: true }
