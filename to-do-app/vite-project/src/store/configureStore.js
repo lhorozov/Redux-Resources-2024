@@ -1,5 +1,4 @@
 import { configureStore } from '@reduxjs/toolkit';
-import logger from 'redux-logger';
 
 import employeeReducer from './employees';
 import taskReducer from './task';
@@ -15,7 +14,6 @@ const store = configureStore({
         ...getDefaultMiddleware(),
         api,
         error,
-        logger,
     ],
 });
 
